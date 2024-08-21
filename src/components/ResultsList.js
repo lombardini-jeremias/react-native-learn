@@ -1,8 +1,19 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { withNavigation } from "react-navigation";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import ResultsDetail from "./ResultsDetail";
 
-export default function ResultsList({ title, priceFilter }) {
+const ResultsList = ({ title, priceFilter, navigation }) => {
+  if (!priceFilter.length) {
+    return null;
+  }
+
   return (
     <View>
       <Text style={styles.titleStyle}>{title}</Text>
@@ -10,15 +21,25 @@ export default function ResultsList({ title, priceFilter }) {
 
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={priceFilter}
         keyExtractor={(business) => business.id}
         renderItem={({ item }) => {
-          return <ResultsDetail business={item} />;
+          // console.log("ITEM", item);
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Business", { businessId: item.id });
+              }}
+            >
+              <ResultsDetail business={item} />
+            </TouchableOpacity>
+          );
         }}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   titleStyle: {
@@ -27,3 +48,5 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
+
+export default withNavigation(ResultsList);

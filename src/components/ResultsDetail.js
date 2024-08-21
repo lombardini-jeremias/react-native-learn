@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function ResultsDetail({ business }) {
-  console.log("ResultsDetail", business);
+  // console.log("ResultsDetail", business);
   return (
     <View style={{ margin: 10 }}>
       <Image
